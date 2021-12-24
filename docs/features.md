@@ -2,7 +2,7 @@
 sidebar_position: 3
 ---
 
-# Features of ICES
+# Features
 ------
 
 1. Fully open source, all code is open source, follow the MIT agreement, use it at will

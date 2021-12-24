@@ -8,12 +8,12 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: 'ICES',
   tagline: 'Internet Computer Event System',
-  url: 'https://cesdoc.netlify.app',
+  url: 'https://ices.one',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.png',
-  organizationName: 'web3crunch', // Usually your GitHub org/user name.
+  organizationName: 'ICES', // Usually your GitHub org/user name.
   projectName: 'ICES', // Usually your repo name.
 
   presets: [
@@ -60,7 +60,7 @@ const config = {
       },
       footer: {
         style: 'dark',
-        copyright: `Copyright © ${new Date().getFullYear()} ICES. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} ICES`,
       },
       prism: {
         theme: lightCodeTheme,
