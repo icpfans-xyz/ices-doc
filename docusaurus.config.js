@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'ICES',
-  tagline: 'Canister Events Service',
+  tagline: 'Internet Computer Event System',
   url: 'https://cesdoc.netlify.app',
   baseUrl: '/',
   onBrokenLinks: 'throw',
