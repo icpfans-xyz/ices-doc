@@ -6,8 +6,7 @@ slug: /
 # Wecome to ICES
 ------
 
-<img src="/img/logo_chrome.png"  height = "300" alt="image" />
-
+![ICES](/img/logo_full_title.png "ICES")
 
 ## What is ICES
 
@@ -17,8 +16,7 @@ ICES (Internet Computer Event System) is a canister custom event log storage and
 
 ## 🔗 Links
 
-* Visit **[our website](https://www.ices.one/)**
-* Twitter **[our twitter](https://twitter.com/icesHQ)**
-* Visit **[ICES's repository](https://github.com/icpfans-xyz/ices)**
-* Visit **[ICES's sync](https://github.com/icpfans-xyz/ices-sync)**
+* Website **[https://ices.one/](https://ices.one/)**
+* Twitter **[https://twitter.com/icesHQ](https://twitter.com/icesHQ)**
+* Code **[https://github.com/icpfans-xyz/ices](https://github.com/icpfans-xyz/ices)**
 
