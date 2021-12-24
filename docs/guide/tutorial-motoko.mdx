@@ -1,0 +1,59 @@
+---
+sidebar_position: 1
+---
+
+# Motoko Tutorial
+------
+CES's Mainnet canister: * **ark2z-fiaaa-aaaah-aa4ta-cai** *  
+In your **Motoko** conract code, follow the steps below.  
+
+
+## 1. Build and initialize the CES actor
+
+```
+type ICPCES = actor {
+        emit : shared (eventKey: Text, eventValue: [Text]) -> async Result.Result<(), Text>;
+};
+
+private var CESActor : ICPCES = actor("ark2z-fiaaa-aaaah-aa4ta-cai");
+```
+
+## 2. Call the CES Canister emit method to send log data.
+The **emit** function has two parameters, **eventKey: Text, eventValue: [Text]** where eventValue is an array that can receive multiple values
+
+* Send the specified view of login user data related, specify eventKey = "CES_USER"
+
+```
+public shared({caller}) func login(param1: Text, param2: Text) : async Bool {
+    // TODO Your business
+
+    let eventKey = "CES_USER";
+    let eventValue = [param1, param2];
+    let result = await CESActor.emit(eventKey, eventValue);
+    switch result {
+        CESe(#ok()) Debug.print("emit success");
+        CESe(#err(errmsg)) Debug.print("emit fail: " # errmsg);
+    };
+    true;
+};
+
+```
+
+* Send general custom data, and then you can query related data and charts through the services provided by CES
+
+```
+// Event log example
+public shared({caller}) func eventLogExample(param1: Text, param2: Text) : async Bool {
+    // TODO Your business
+
+    let eventKey = "your key";
+    let eventValue = [param1, param2];
+    let result = await CESActor.emit(eventKey, eventValue);
+    switch result {
+        CESe(#ok()) Debug.print("emit success");
+        CESe(#err(errmsg)) Debug.print("emit fail: " # errmsg);
+    };
+    true;
+};
+
+```
