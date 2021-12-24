@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Motoko Tutorial
 ------
-CES's Mainnet canister: * **ark2z-fiaaa-aaaah-aa4ta-cai** *  
+CES's Mainnet canister: * **ydetr-mqaaa-aaaah-aa6lq-cai** *  
 In your **Motoko** conract code, follow the steps below.  
 
 
@@ -12,13 +12,32 @@ In your **Motoko** conract code, follow the steps below.
 
 ```
 type ICPCES = actor {
-        emit : shared (eventKey: Text, eventValue: [Text]) -> async Result.Result<(), Text>;
+    register : shared (projectId: Text, canisterId: Principal) -> async Result.Result<Text, Text>;
+    emit : shared (eventKey: Text, eventValue: [Text]) -> async Result.Result<Nat, Text>;
 };
 
-private var CESActor : ICPCES = actor("ark2z-fiaaa-aaaah-aa4ta-cai");
+private var icasActor : ICPCES = actor("ydetr-mqaaa-aaaah-aa6lq-cai");
+
 ```
 
-## 2. Call the CES Canister emit method to send log data.
+## 2. Register the current Canister to ICES Main (Router) Canister. Only need to register once successfully
+
+```
+// Register the current Canister to ICES Main (Router) Canister
+public shared({caller}) func register() : async Bool {
+    // TODO Your Project ID or Name （customize）
+    let projectId = "your project id or name";
+    let thisCanister = Principal.fromActor(CESExample);
+    let result = await icasActor.register(projectId, thisCanister);
+    switch result {
+        case(#ok(msg)) Debug.print("Register success :" # msg);
+        case(#err(errmsg)) Debug.print("emit fail: " # errmsg);
+    };
+    true;
+};
+```
+
+## 3. Call the CES Canister emit method to send log data.
 The **emit** function has two parameters, **eventKey: Text, eventValue: [Text]** where eventValue is an array that can receive multiple values
 
 * Send the specified view of login user data related, specify eventKey = "CES_USER"
@@ -29,7 +48,7 @@ public shared({caller}) func login(param1: Text, param2: Text) : async Bool {
 
     let eventKey = "CES_USER";
     let eventValue = [param1, param2];
-    let result = await CESActor.emit(eventKey, eventValue);
+    let result = await icasActor.emit(eventKey, eventValue);
     switch result {
         CESe(#ok()) Debug.print("emit success");
         CESe(#err(errmsg)) Debug.print("emit fail: " # errmsg);
@@ -48,7 +67,7 @@ public shared({caller}) func eventLogExample(param1: Text, param2: Text) : async
 
     let eventKey = "your key";
     let eventValue = [param1, param2];
-    let result = await CESActor.emit(eventKey, eventValue);
+    let result = await icasActor.emit(eventKey, eventValue);
     switch result {
         CESe(#ok()) Debug.print("emit success");
         CESe(#err(errmsg)) Debug.print("emit fail: " # errmsg);
@@ -57,3 +76,8 @@ public shared({caller}) func eventLogExample(param1: Text, param2: Text) : async
 };
 
 ```
+
+:::tip
+
+This is the example  [repository](https://github.com/icpfans-xyz/ices/tree/main/example)
+:::

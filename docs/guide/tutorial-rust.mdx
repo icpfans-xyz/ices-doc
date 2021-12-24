@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Rust Tutorial
 ------
-CES's Mainnet canister: * **ark2z-fiaaa-aaaah-aa4ta-cai** *  
+CES's Mainnet canister: * **ydetr-mqaaa-aaaah-aa6lq-cai** *  
 In your **Rust** conract code, follow the steps below.
 
 ## 1. Add dependency in toml configuration file
@@ -12,6 +12,32 @@ In your **Rust** conract code, follow the steps below.
 ```
 ic-cdk = "0.3.3"
 ic-cdk-macros = "0.3.3"
+```
+
+## 2. Register the current Canister to ICES Main (Router) Canister. Only need to register once successfully
+
+```
+#[update]
+async fn register() {
+    let project_id = String::from("your project id or name");
+    let this_canister: Principal =
+            Principal::from_text("ryjl3-tyaaa-aaaaa-aaaba-cai").unwrap();
+    unsafe {
+        let canister_id: Principal =
+            Principal::from_text(CESCANISTER).unwrap();
+
+            let _call_result: Result<(), _> =
+            ic_cdk::api::call::call(canister_id, "register", (project_id, this_canister)).await;
+        match _call_result {
+            Ok(_) => Ok(()),
+            Err((code, msg)) => Err(ic_cdk::println!(
+                "An error happened during the call: {}: {}",
+                code as u8,
+                msg
+            )),
+        };
+    }
+}
 ```
 
 ## 2. Use ic_cdk to call  the CES Canister emit method to send log data.
@@ -43,7 +69,7 @@ match _call_result {
 let event_key = String::from("your key");
 let event_value = ["value1", "value2"];
 let canister_id: Principal =
-    Principal::from_text("ark2z-fiaaa-aaaah-aa4ta-cai").unwrap();
+    Principal::from_text("ydetr-mqaaa-aaaah-aa6lq-cai").unwrap();
     let _call_result: Result<(), _> =
     ic_cdk::api::call::call(canister_id, "emit", (event_key, event_value)).await;
 match _call_result {
@@ -56,3 +82,8 @@ match _call_result {
 };
 
 ```
+
+:::tip
+
+This is the example  [repository](https://github.com/icpfans-xyz/ices/tree/main/example)
+:::
