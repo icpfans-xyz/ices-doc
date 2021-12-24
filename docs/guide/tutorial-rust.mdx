@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # Rust Tutorial
 ------
-CES's Mainnet canister: * **ark2z-fiaaa-aaaah-aa4ta-cai** *  
+ICES's Mainnet canister: * **ark2z-fiaaa-aaaah-aa4ta-cai** *  
 In your **Rust** conract code, follow the steps below.
 
 ## 1. Add dependency in toml configuration file
@@ -14,10 +14,10 @@ ic-cdk = "0.3.3"
 ic-cdk-macros = "0.3.3"
 ```
 
-## 2. Use ic_cdk to call  the CES Canister emit method to send log data.
+## 2. Use ic_cdk to call  the ICES Canister emit method to send log data.
 The **emit** function has two parameters, **eventKey: String, eventValue: []** where eventValue is an array that can receive multiple values
 
-* Send the specified view of login user data related, specify eventKey = "CES_USER"
+* Send the specified view of login user data related, specify eventKey = "ICES_USER"
 
 ```
 let event_key = String::from("CES_USER");
@@ -37,7 +37,7 @@ match _call_result {
 
 ```
 
-* Send general custom data, and then you can query related data and charts through the services provided by CES
+* Send general custom data, and then you can query related data and charts through the services provided by ICES
 
 ```
 let event_key = String::from("your key");
