@@ -37,7 +37,7 @@ public shared({caller}) func register() : async Bool {
 };
 ```
 
-## 3. Call the CES Canister emit method to send log data.
+## 3. Call the ICES Main (Router) Canister emit method to send event log data.
 The **emit** function has two parameters, **eventKey: Text, eventValue: [Text]** where eventValue is an array that can receive multiple values
 
 * Send the specified view of login user data related, specify eventKey = "ICES_USER"
@@ -46,7 +46,7 @@ The **emit** function has two parameters, **eventKey: Text, eventValue: [Text]**
 public shared({caller}) func login(param1: Text, param2: Text) : async Bool {
     // TODO Your business
 
-    let eventKey = "CES_USER";
+    let eventKey = "ICES_USER";
     let eventValue = [param1, param2];
     let result = await icasActor.emit(eventKey, eventValue);
     switch result {

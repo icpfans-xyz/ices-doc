@@ -40,13 +40,13 @@ async fn register() {
 }
 ```
 
-## 2. Use ic_cdk to call  the CES Canister emit method to send log data.
+## 3. Use ic_cdk to call the ICES Main (Router) Canister emit method to send event log data.
 The **emit** function has two parameters, **eventKey: String, eventValue: []** where eventValue is an array that can receive multiple values
 
 * Send the specified view of login user data related, specify eventKey = "ICES_USER"
 
 ```
-let event_key = String::from("CES_USER");
+let event_key = String::from("ICES_USER");
 let event_value = ["value1", "value2"];
 let canister_id: Principal =
     Principal::from_text(CESCANISTER).unwrap();
