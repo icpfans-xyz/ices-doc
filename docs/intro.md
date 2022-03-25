@@ -10,7 +10,7 @@ slug: /
 
 ## What is ICES
 
-**ICES (Internet Computer Event System)** is a canister custom event log storage and analysis service on Dfinity. It mainly solves the problem that canister's interaction records cannot be publicly queried. Any canister can access ICES without permission, store the interactive data permanently, and query it through the public API and dashboard provided by ICES.
+**ICES (Internet Computer Event System)** is a canister custom event log storage and analysis service on Dfinity. Any canister can access ICES without permission, store the interactive data permanently, and query it through the public API and dashboard provided by ICES.
 
 
 
@@ -18,5 +18,8 @@ slug: /
 
 * Website **[https://ices.one/](https://ices.one/)**
 * Twitter **[https://twitter.com/icesHQ](https://twitter.com/icesHQ)**
-* Code **[https://github.com/icpfans-xyz/ices](https://github.com/icpfans-xyz/ices)**
+* Repo Overview  **[https://github.com/icpfans-xyz/ices](https://github.com/icpfans-xyz/ices)**
+* Core smart contracts  **[https://github.com/icpfans-xyz/ices-contract](https://github.com/icpfans-xyz/ices-contract)**
+* ICES Motoko SDK  **[https://github.com/icpfans-xyz/ices-motoko-library](https://github.com/icpfans-xyz/ices-motoko-library)**
+
 

@@ -2,32 +2,54 @@
 sidebar_position: 1
 ---
 
-# Motoko Tutorial
-------
-CES's Mainnet canister: * **ydetr-mqaaa-aaaah-aa6lq-cai** *  
-In your **Motoko** conract code, follow the steps below.  
+# Motoko SDK-Getting started
+* [ICES Motoko Library](https://github.com/icpfans-xyz/ices-motoko-library)
+* ICES's Mainnet canister: * **ydetr-mqaaa-aaaah-aa6lq-cai** *  
 
+# IC Mainnet demo
+* Demo https://opxi6-diaaa-aaaah-abhrq-cai.raw.ic0.app
+* Explorer [https://explorer.ices.one](https://explorer.ices.one)
 
-## 1. Build and initialize the ICES actor
+#  **Motoko** contract project 
+
+## Requirements
+
+  - [DFX cli](https://smartcontracts.org/docs/quickstart/local-quickstart.html)
+  - [Vessel Motoko package manager](https://github.com/dfinity/vessel) 
+
+You're required to have [Vessel Motoko package manager](https://github.com/dfinity/vessel) binary installed and configured in your operating system.
+
+- Include the `vessel sources` command in the `build > packtool` of your `dfx.json`
+
+  ```sh
+  ...
+  "defaults": {
+    "build": {
+      "packtool": "vessel sources"
+    }
+  }
+  ...
+  ```
+  
+- Run [Vessel](https://github.com/dfinity/vessel/releases) install in your project root 
+
+  ```sh
+  vessel install
+  ```
+
+## Import ICES Library
 
 ```
-type ICPCES = actor {
-    register : shared (projectId: Text) -> async Result.Result<Text, Text>;
-    emit : shared (eventKey: Text, eventValue: [Text]) -> async Result.Result<Nat, Text>;
-};
-
-private var icasActor : ICPCES = actor("ydetr-mqaaa-aaaah-aa6lq-cai");
-
+import ICES "mo:ices/ICES";
+import Router "mo:ices/Router";
 ```
 
-## 2. Register the current Canister to ICES Main (Router) Canister. Only need to register once successfully
+## Register the current Canister to ICES Main (Router) Canister. Only need to register once successfully
 
 ```
 // Register the current Canister to ICES Main (Router) Canister
 public shared({caller}) func register() : async Bool {
-    // TODO Your Project ID or Name （customize）
-    let projectId = "your project id or name";
-    let result = await icasActor.register(projectId);
+    let result = await ices.register();
     switch result {
         case(#ok(msg)) Debug.print("Register success :" # msg);
         case(#err(errmsg)) Debug.print("emit fail: " # errmsg);
@@ -36,47 +58,97 @@ public shared({caller}) func register() : async Bool {
 };
 ```
 
-## 3. Call the ICES Main (Router) Canister emit method to send event log data.
-The **emit** function has two parameters, **eventKey: Text, eventValue: [Text]** where eventValue is an array that can receive multiple values
+## Emit event logs to ICES
 
-* Send the specified view of login user data related, specify eventKey = "ICES_USER"
+* Emit Common  Event logs to ICES 
 
 ```
-public shared({caller}) func login(param1: Text, param2: Text) : async Bool {
+public shared({caller}) func emitEvent(eventKey : Text, subKey : Text
+, subValue : Text) : async Bool {
     // TODO Your business
 
-    let eventKey = "ICES_USER";
-    let eventValue = [param1, param2];
-    let result = await icasActor.emit(eventKey, eventValue);
+    let event : Event = {
+        key = eventKey;
+        values = [(subKey, #Text subValue,#Indexed)];
+        caller = caller;
+        time = Time.now();
+    };
+
+    let result = await ices.emit(event);
     switch result {
-        CESe(#ok()) Debug.print("emit success");
-        CESe(#err(errmsg)) Debug.print("emit fail: " # errmsg);
+        case(#ok(index)) Debug.print("emit success");
+        case(#err(errmsg)) Debug.print("emit fail: " # errmsg);
+    };
+    true;
+};
+```
+
+* Emit Transations  Event logs to ICES 
+
+```
+
+public shared({caller}) func transfer(from: Principal, to: Principal, amount : Nat) : async Bool {
+    // TODO Your business
+
+    let transaction : Transaction = {
+        from = Principal.toText(from);
+        to = Principal.toText(to);
+        amount = amount;
+    };
+    
+    let event : Event = {
+        key = "Transaction";
+        values = [("subKey", #Transaction transaction,#Indexed)];
+        caller = caller;
+        time = Time.now();
+    };
+    
+    let result = await ices.emit(event);
+    switch result {
+        case(#ok(index)) Debug.print("emit success");
+        case(#err(errmsg)) Debug.print("emit fail: " # errmsg);
     };
     true;
 };
 
 ```
 
-* Send general custom data, and then you can query related data and charts through the services provided by ICES
-
+## Aboout ICES Event values 
+- Event values is a tuple array, the first element of the Tuple is a custom subKey type Text, the second element is subValue type enum EventValue, and the third element is an enum Indexed, which is stored in the canister as a search index
+- You can find the type definitions at ICES library Router
 ```
-// Event log example
-public shared({caller}) func eventLogExample(param1: Text, param2: Text) : async Bool {
-    // TODO Your business
-
-    let eventKey = "your key";
-    let eventValue = [param1, param2];
-    let result = await icasActor.emit(eventKey, eventValue);
-    switch result {
-        CESe(#ok()) Debug.print("emit success");
-        CESe(#err(errmsg)) Debug.print("emit fail: " # errmsg);
-    };
-    true;
+public type Transaction = {
+    from : Text;
+    to: Text;
+    amount: Nat;
 };
 
-```
+public type EventValue = {
+    #I64 : Int64;
+    #U64 : Nat64;
+    #Vec : [EventValue];
+    #Slice : [Nat8];
+    #Text : Text;
+    #True;
+    #False;
+    #Float : Float;
+    #Principal : Principal;
+    #Transaction : Transaction;
+};
 
+public type Indexed = {
+    #Indexed;
+    #Not;
+};
+
+public type Event = {
+    time : Time.Time;
+    key : Text;
+    values : [(Text, EventValue, Indexed)];
+    caller : Principal;
+};
+```
 :::tip
 
-This is the example  [repository](https://github.com/icpfans-xyz/ices/tree/main/example)
+This is the example  [repository](https://github.com/icpfans-xyz/ices-motoko-library/tree/main/example)
 :::
