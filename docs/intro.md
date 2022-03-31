@@ -21,5 +21,6 @@ slug: /
 * Repo Overview  **[https://github.com/icpfans-xyz/ices](https://github.com/icpfans-xyz/ices)**
 * Core smart contracts  **[https://github.com/icpfans-xyz/ices-contract](https://github.com/icpfans-xyz/ices-contract)**
 * ICES Motoko SDK  **[https://github.com/icpfans-xyz/ices-motoko-library](https://github.com/icpfans-xyz/ices-motoko-library)**
+* ICES Rust SDK  **[https://github.com/icpfans-xyz/ices-contract/tree/main/sdk](https://github.com/icpfans-xyz/ices-contract/tree/main/sdk)**
 
 
