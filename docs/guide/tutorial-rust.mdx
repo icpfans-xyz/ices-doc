@@ -2,85 +2,183 @@
 sidebar_position: 2
 ---
 
-# Rust Tutorial
-------
-CES's Mainnet canister: * **ydetr-mqaaa-aaaah-aa6lq-cai** *  
-In your **Rust** conract code, follow the steps below.
+# Rust SDK-Getting started
+* [ICES Rust SDK](https://github.com/icpfans-xyz/ices-contract/tree/main/sdk)
+* [ICES Rust SDK example](https://github.com/icpfans-xyz/ices-contract/tree/main/example/rust)
+* ICES's Mainnet canister: * **ydetr-mqaaa-aaaah-aa6lq-cai** *  
 
-## 1. Add dependency in toml configuration file
+# IC Mainnet demo
+* Demo https://opxi6-diaaa-aaaah-abhrq-cai.raw.ic0.app
+* Explorer [https://explorer.ices.one](https://explorer.ices.one)
+
+## Import ICES Library
+
+Cargo.toml
 
 ```
-ic-cdk = "0.3.3"
-ic-cdk-macros = "0.3.3"
+ices-sdk = { git = "https://github.com/icpfans-xyz/ices-contract.git", branch = "ices-sdk" }
+```
+Code Reference
+```
+use ices_sdk::{
+    Transaction, 
+    EventValue, 
+    Indexed, 
+    EventBuilder, 
+    ICESBuilder
+};
 ```
 
-## 2. Use ic_cdk to register the current Canister to ICES Main (Router) Canister. Only need to register once successfully
+## Register the current Canister to ICES Main (Router) Canister. Only need to register once successfully
 
 ```
-#[update]
-async fn register() {
-    let project_id = String::from("your project id or name");
-    unsafe {
-        let canister_id: Principal =
-            Principal::from_text(CESCANISTER).unwrap();
-        let _call_result: Result<(), _> =
-            ic_cdk::api::call::call(canister_id, "register", (project_id,)).await;
-        match _call_result {
-            Ok(_) => Ok(()),
-            Err((code, msg)) => Err(ic_cdk::println!(
-                "An error happened during the call: {}: {}",
-                code as u8,
-                msg
-            )),
-        };
-    }
+let ices_builder = ICESBuilder::new()
+    .build()
+    .unwrap();
+
+let _call_result = ices_sdk::register(ices_builder).await;
+
+match _call_result {
+    Ok(r) => {
+        ic_cdk::println!("{:?}",r);
+        true
+    },
+    Err(msg) => {
+        ic_cdk::println!("msg:{}", msg);
+        false
+    } 
 }
 ```
 
-## 3. Use ic_cdk to call the ICES Main (Router) Canister emit method to send event log data.
-The **emit** function has two parameters, **eventKey: String, eventValue: []** where eventValue is an array that can receive multiple values
+## Emit event logs to ICES
 
-* Send the specified view of login user data related, specify eventKey = "ICES_USER"
+* Emit Common  Event logs to ICES 
 
 ```
-let event_key = String::from("ICES_USER");
-let event_value = ["value1", "value2"];
-let canister_id: Principal =
-    Principal::from_text(CESCANISTER).unwrap();
-    let _call_result: Result<(), _> =
-    ic_cdk::api::call::call(canister_id, "emit", (event_key, event_value)).await;
+let event = EventBuilder::new()
+    .caller(api::caller())
+    .key(event_key)
+    .values(vec![
+        (String::from("sub_key"), EventValue::Text("hello ices!".to_owned()), Indexed::Indexed)
+    ])
+    .build()
+    .unwrap();
+
+let ices_builder = ICESBuilder::new()
+    .event(event)
+    .build()
+    .unwrap();
+
+let _call_result = ices_sdk::emit(ices_builder).await;
+
 match _call_result {
-    Ok(_) => Ok(()),
-    Err((code, msg)) => Err(ic_cdk::println!(
-        "An error happened during the call: {}: {}",
-        code as u8,
-        msg
-    )),
+    Ok(r) => {
+        ic_cdk::println!("{:?}",r);
+        true
+    },
+    Err(msg) => {
+        ic_cdk::println!("msg:{}", msg);
+        false
+    }
+}
+    
+```
+
+* Emit Transations  Event logs to ICES 
+
+```
+let transaction  = Transaction {
+    from: from.to_string(),
+    to: to.to_string(),
+    amount,
 };
+let event = EventBuilder::new()
+    .caller(ic_cdk::caller())
+    .key(String::from("Transaction"))
+    .values(vec![
+        (String::from("sub_key"),EventValue::Transaction(transaction), Indexed::Indexed)
+    ])
+    .build()
+    .unwrap();
 
-```
+let ices_builder = ICESBuilder::new()
+    .event(event)
+    .build()
+    .unwrap();
 
-* Send general custom data, and then you can query related data and charts through the services provided by ICES
+let _call_result = ices_sdk::emit(ices_builder).await;
 
-```
-let event_key = String::from("your key");
-let event_value = ["value1", "value2"];
-let canister_id: Principal =
-    Principal::from_text("ydetr-mqaaa-aaaah-aa6lq-cai").unwrap();
-    let _call_result: Result<(), _> =
-    ic_cdk::api::call::call(canister_id, "emit", (event_key, event_value)).await;
 match _call_result {
-    Ok(_) => Ok(()),
-    Err((code, msg)) => Err(ic_cdk::println!(
-        "An error happened during the call: {}: {}",
-        code as u8,
-        msg
-    )),
-};
+    Ok(r) => {
+        ic_cdk::println!("{:?}",r);
+        true
+    },
+    Err(msg) => {
+        ic_cdk::println!("msg:{}", msg);
+        false
+    }
+}
 
 ```
 
+## Aboout ICES Event values 
+- Event values is a tuple array, the first element of the Tuple is a custom subKey type Text, the second element is subValue type enum EventValue, and the third element is an enum Indexed, which is stored in the canister as a search index
+- You can find the type definitions at [ICES SDK](https://github.com/icpfans-xyz/ices-contract/blob/main/sdk/src/event/builder.rs)
+```
+#[derive(CandidType,Deserialize, Clone, Debug)]
+pub struct Transaction  {
+    pub from: String,
+    pub to: String,
+    pub amount: Nat,
+}
+
+#[derive(CandidType, Deserialize, Clone, Debug)]
+pub struct Event {
+    /// The timestamp 
+    pub time: Int,
+    /// The caller that initiated the call on the token contract.
+    pub caller: Principal,
+    /// The key that took place.
+    pub key: String,
+    /// Details of the event.
+    pub values: Vec<(String, EventValue, Indexed)>,
+}
+
+
+#[derive(Default, CandidType, Deserialize, Clone, Debug)]
+pub struct EventBuilder {
+    /// The caller that initiated the call on the token contract.
+    pub caller: Option<Principal>,
+    /// The key that took place.
+    pub key: Option<String>,
+    /// Details of the event.
+    pub values: Vec<(String, EventValue, Indexed)>,
+}
+
+
+#[derive(CandidType, Serialize, Deserialize, Clone, Debug)]
+pub enum Indexed {
+    Indexed,
+    Not,
+}
+
+#[derive(CandidType, Deserialize, Clone, Debug)]
+pub enum EventValue {
+    I64(i64),
+    U64(u64),
+    Vec(Vec<EventValue>),
+    #[serde(with = "serde_bytes")]
+    Slice(Vec<u8>),
+    Text(String),
+    True,
+    False,  
+    Float(f64),
+    Principal(Principal),
+    Transaction(Transaction),
+}
+
+```
 :::tip
 
-This is the example  [repository](https://github.com/icpfans-xyz/ices/tree/main/example)
+This is the example  [repository](https://github.com/icpfans-xyz/ices-motoko-library/tree/main/example)
 :::
