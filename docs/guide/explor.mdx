@@ -1,0 +1,122 @@
+---
+sidebar_position: 3
+---
+
+# Explore
+
+# I. Background
+
+* **Background**: Since there is a big difference between IC and EVM blockchain, and there is no event logging system, the event logging function needs to be implemented by the project party itself, ICES is an event logging system developed to solve a problem. 
+
+* **Target group**: All IC's ecological project parties and IC users 
+* **Technical application scenario**: Need to listen to canister events, collect canister information, and perform specific analysis of canister usage 
+* **The overall idea**: load [ICES Motoko SDK](https://doc.ices.one/guide/tutorial-motoko) or [Rust SDK](https://doc.ices.one/guide/tutorial-rust) in the project, call ICES to provide a response to collect event information where the business needs to record event information, and finally ICES will collect these event logs processed and displayed in [ICES Explorer](https://explorer.ices.one/) 
+
+#II. Operation steps
+
+##2.1 Preparation 
+* [DFX CLI](https://smartcontracts.org/docs/quickstart/local-quickstart.html) needs to be installed locally 
+* Learn how to install and use the [ICES SDK](https://github.com/icpfans-xyz/ices-motoko-library). [learn more](https://doc.ices.one/)
+ 
+##2.2 Using ICES Explorer 
+* Access [ICES Explorer](https://explorer.ices.one/) 
+* View log information 
+
+#III. Introduction to ICES Explorer
+
+##3.1 Home Page
+![img1]
+
+  1. ICES all canister's cumulative total of all event logs and the trend of the last 7 days, the number of the last 24 hours increase 
+![img2]
+
+2. ICES Cumulative total of all access canister and the trend of the last 7 days, the last 24 hours increase 
+![img3]
+ 
+3. ICES Cumulative total number of callers generating event logs and the trend of the last 7 days and the increase of the last 24 hours in all accessed canisters 
+![img4]
+ 
+4. ICES Latest Event Log Information 
+![img5]
+ 
+5. Use the search box to view the specified canister or caller information 
+![img6]
+
+##3.2 Canister Details
+> 1. Accessed via the canisterID chain in the home event log list 
+> 2. Use the search box to find access by typing in canisterID
+
+1. Details page
+![img7]
+
+2. canister's cumulative total of all event logs and the number of increases in the last 24 hours
+![img8]
+
+
+3. canister the cumulative total number of all occurring event log callers and the number of increases in the last 24 hours 
+![img9]
+
+4. check canister on icrock and icp123
+![img10]
+
+5. check canister on icrock and icp123
+![img11]
+
+6. View the event log of the specified caller
+![img12]
+
+7. View the event log of the specified time
+   ![img13]
+
+8. View canister recent 24h, 7d, 30d, all events log and callers trend analysis graph
+![img14]
+
+[img1]:/img/pic1.jpg
+[img2]:/img/pic2.jpg
+[img3]:/img/pic3.jpg
+[img4]:/img/pic4.jpg
+[img5]:/img/pic5.jpg
+[img6]:/img/pic6.jpg
+[img7]:/img/pic7.jpg
+[img8]:/img/pic8.jpg
+[img9]:/img/pic9.jpg
+[img10]:/img/pic10.jpg
+[img11]:/img/pic11.jpg
+[img12]:/img/pic12.jpg
+[img13]:/img/pic13.jpg
+[img14]:/img/pic14.jpg
+
+
+##3.3 Caller Details
+
+>1. Accessible via the caller link in the event log list on the home page
+>2. Use the search box to enter callerID lookup to enter
+
+1. Details
+![img15]
+
+
+2. The cumulative total number of all event logs of caller and the number of increase in the last 24 hours
+
+![img16]
+
+3. View the caller's information in icrock
+![img17]
+
+
+4. Use the event filter function to view the specified event log
+Optional parameters
+• Select event key
+• Enter canisterID
+• Select time
+![img18]
+
+
+5. View Caller's recent 24h, 7d, 30d, all events log and callers trend analysis chart
+![img19]
+
+[img15]:/img/pic15.jpg
+[img16]:/img/pic16.jpg
+[img17]:/img/pic17.jpg
+[img18]:/img/pic18.jpg
+[img19]:/img/pic19.jpg
