@@ -15,11 +15,11 @@ sidebar_position: 2
 
 Cargo.toml
 
-```
+```rust
 ices-sdk = { git = "https://github.com/icpfans-xyz/ices-contract.git", branch = "ices-sdk" }
 ```
 Code Reference
-```
+```rust
 use ices_sdk::{
     Transaction, 
     EventValue, 
@@ -31,7 +31,7 @@ use ices_sdk::{
 
 ## Register the current Canister to ICES Main (Router) Canister. Only need to register once successfully
 
-```
+```rust
 let ices_builder = ICESBuilder::new()
     .build()
     .unwrap();
@@ -54,7 +54,7 @@ match _call_result {
 
 * Emit Common  Event logs to ICES 
 
-```
+```rust
 let event = EventBuilder::new()
     .caller(api::caller())
     .key(event_key)
@@ -86,7 +86,7 @@ match _call_result {
 
 * Emit Transations  Event logs to ICES 
 
-```
+```rust
 let transaction  = Transaction {
     from: from.to_string(),
     to: to.to_string(),
@@ -124,7 +124,7 @@ match _call_result {
 ## Aboout ICES Event values 
 - Event values is a tuple array, the first element of the Tuple is a custom subKey type Text, the second element is subValue type enum EventValue, and the third element is an enum Indexed, which is stored in the canister as a search index
 - You can find the type definitions at [ICES SDK](https://github.com/icpfans-xyz/ices-contract/blob/main/sdk/src/event/builder.rs)
-```
+```rust
 #[derive(CandidType,Deserialize, Clone, Debug)]
 pub struct Transaction  {
     pub from: String,
