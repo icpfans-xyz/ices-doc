@@ -6,3 +6,98 @@ sidebar_position: 1
 
 > **PREREQUISITES**
 > To use the GraphQL API, required knowledge of basic GraphQL syntax
+
+The GraphQL API  Results can be filtered, sorted and paginated.
+
+### Queries
+---
+Queries in GraphQL are used to fetch data without modifying it.
+ICES GrapQL API URL: https://graph.ices.one/v1/graphql
+
+#### Example usage
+**Return the total number of logs**
+The following query returns the total number of logs
+
+##### Requst:
+```graphQL
+query MyQuery {
+    event_log_aggregate {
+        aggregate {
+            count
+        }
+    }
+}
+```
+
+##### Response:
+
+```json
+{
+  "data": {
+    "event_log_aggregate": {
+      "aggregate": {
+        "count": 2
+      }
+    }
+  }
+}
+```
+
+
+
+**Return log information**
+The following log messages are returned, and the limit parameter can be passed to specify the number of entries to be returned
+
+#### Requst:
+```graphQL
+query MyQuery {
+  t_event_logs_v1(limit: 3) {
+    block
+    caller
+    event_value
+    event_key
+    canister_id
+    caller_time
+    id
+  }
+}
+```
+
+#### Response:
+```json
+{
+  "data": {
+    "t_event_logs_v1": [
+      {
+        "block": 665017365,
+        "caller": "yjb6e-r9rllla-aaaaa-aaaca-cai",
+        "event_value": "[{\"sub_key\": \"from\",\"sub_value\":\"cst9j-o9ebwaa-aaaaa-aaaca-cai\",\"indexed\":true}, {\"sub_key\": \"to\",\"sub_value\":\"ytn3o-f5hfdca-aaaaa-aaaca-cai\",\"indexed\":true}, {\"sub_key\": \"amount\",\"sub_value\":\"8168\",\"indexed\":false}]",
+        "event_key": "infrastructure",
+        "canister_id": "mge4o-d5tjora-aaaaa-aaaca-cai",
+        "caller_time": "2022-03-22T00:00:00",
+        "id": 125
+      },
+      {
+        "block": 665023291,
+        "caller": "orj4c-q6pavza-aaaaa-aaaca-cai",
+        "event_value": "[{\"sub_key\": \"from\",\"sub_value\":\"zdy5k-m1yxtqa-aaaaa-aaaca-cai\",\"indexed\":true}, {\"sub_key\": \"to\",\"sub_value\":\"pvy4r-f9osuoa-aaaaa-aaaca-cai\",\"indexed\":true}, {\"sub_key\": \"amount\",\"sub_value\":\"0386\",\"indexed\":false}]",
+        "event_key": "leading edge",
+        "canister_id": "jth0m-r9loeza-aaaaa-aaaca-cai",
+        "caller_time": "2022-03-23T00:00:00",
+        "id": 126
+      },
+      {
+        "block": 665056599,
+        "caller": "pcu6z-v2jwopa-aaaaa-aaaca-cai",
+        "event_value": "[{\"sub_key\": \"from\",\"sub_value\":\"jgx5c-q6vgdoa-aaaaa-aaaca-cai\",\"indexed\":true}, {\"sub_key\": \"to\",\"sub_value\":\"eoh6l-m9mkfka-aaaaa-aaaca-cai\",\"indexed\":true}, {\"sub_key\": \"amount\",\"sub_value\":\"16218499\",\"indexed\":false}]",
+        "event_key": "productivity",
+        "canister_id": "dke6a-p6pwtta-aaaaa-aaaca-cai",
+        "caller_time": "2022-03-20T00:00:00",
+        "id": 127
+      }
+    ]
+  }
+}
+```
+
+You can try visiting [graphql playground](https://graphiql-online.com/) and typing in [ICES GraphQL API url](https://graph.ices.one/v1/graphql) to see the data tables provided by ICES, and see SCHEMA to get more information on GraphQL parameters
