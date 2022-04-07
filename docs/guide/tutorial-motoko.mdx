@@ -47,7 +47,7 @@ import Router "mo:ices/Router";
 
 ## Register the current Canister to ICES Main (Router) Canister. Only need to register once successfully
 
-```
+```rust
 // Register the current Canister to ICES Main (Router) Canister
 public shared({caller}) func register() : async Bool {
     let result = await ices.register();
@@ -63,7 +63,7 @@ public shared({caller}) func register() : async Bool {
 
 * Emit Common  Event logs to ICES 
 
-```
+```rust
 public shared({caller}) func emitEvent(eventKey : Text, subKey : Text
 , subValue : Text) : async Bool {
     // TODO Your business
@@ -86,7 +86,7 @@ public shared({caller}) func emitEvent(eventKey : Text, subKey : Text
 
 * Emit Transations  Event logs to ICES 
 
-```
+```rust
 
 public shared({caller}) func transfer(from: Principal, to: Principal, amount : Nat) : async Bool {
     // TODO Your business
@@ -117,7 +117,7 @@ public shared({caller}) func transfer(from: Principal, to: Principal, amount : N
 ## Aboout ICES Event values 
 - Event values is a tuple array, the first element of the Tuple is a custom subKey type Text, the second element is subValue type enum EventValue, and the third element is an enum Indexed, which is stored in the canister as a search index
 - You can find the type definitions at ICES library Router
-```
+```rust
 public type Transaction = {
     from : Text;
     to: Text;
